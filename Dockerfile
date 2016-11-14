@@ -7,7 +7,7 @@ LABEL Vendor="1000kit"
 LABEL License="GPLv3"
 LABEL Version="1.0.0"
 
-ENV APACHEDS_VERSION="2.0.0-M23"
+ENV APACHEDS_VERSION="2.0.0-M20"
 
 ENV APACHEDS_DATA="/opt/apacheds/"
 
@@ -18,18 +18,22 @@ ENV APACHEDS_BOOTSTRAP="/opt/bootstrap"
 USER root
 
 ADD install/run.sh /opt/run.sh 
+ADD install/ldif /opt/ldif
+
+RUN yum -y install openldap-clients gettext \
+    && yum clean all \
 
 
-RUN groupadd -r apacheds \
+    && groupadd -r apacheds \
  	&& useradd -r -g apacheds -m -d /home/apacheds -s /bin/bash -c "apacheds user" apacheds \
  	&& chmod -R 755 /home/apacheds \
  	&& echo 'apacheds ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
 
-    && curl -L http://www.eu.apache.org/dist//directory/apacheds/dist/${APACHEDS_VERSION}/apacheds-${APACHEDS_VERSION}.zip -o /tmp/apacheds-${APACHEDS_VERSION}.zip \
+    && curl -L http://archive.apache.org/dist/directory/apacheds/dist/${APACHEDS_VERSION}/apacheds-${APACHEDS_VERSION}.zip -o /tmp/apacheds-${APACHEDS_VERSION}.zip \
 	&& cd /opt \
 	&& unzip -q /tmp/apacheds-${APACHEDS_VERSION}.zip \
 	&& ln -sf apacheds-${APACHEDS_VERSION} apacheds \
-	&& chown -R apacheds:apacheds /opt/apacheds-${APACHEDS_VERSION} /opt/run.sh \
+	&& chown -R apacheds:apacheds /opt/apacheds-${APACHEDS_VERSION} /opt/run.sh /opt/ldif \
 	&& chmod ug+rwx /opt/run.sh /opt/apacheds/bin/* \
 	&& rm -rf /tmp/apacheds-${APACHEDS_VERSION}.zip \
 	&& mkdir -p ${APACHEDS_BOOTSTRAP}/conf/

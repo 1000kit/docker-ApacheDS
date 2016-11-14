@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.0.0-M23"
+VERSION="2.0.0-M20"
 IMAGE="1000kit/apacheds"
 
 cd "$( dirname "${BASH_SOURCE[0]}" )"
