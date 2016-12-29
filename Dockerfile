@@ -3,16 +3,14 @@ FROM 1000kit/base-jdk
 MAINTAINER 1000kit <docker@1000kit.org>
 
 
-LABEL Vendor="1000kit"
-LABEL License="GPLv3"
-LABEL Version="1.0.0"
+LABEL Vendor="1000kit" \
+      License="GPLv3" \
+      Version="1.0.0"
 
-ENV APACHEDS_VERSION="2.0.0-M20"
-
-ENV APACHEDS_DATA="/opt/apacheds/"
-
-ENV APACHEDS_INSTANCE="default"
-ENV APACHEDS_BOOTSTRAP="/opt/bootstrap"
+ENV APACHEDS_VERSION="2.0.0-M20" \
+    APACHEDS_DATA="/opt/apacheds/" \
+    APACHEDS_INSTANCE="default" \
+    APACHEDS_BOOTSTRAP="/opt/bootstrap"
 
 # install User
 USER root
@@ -22,7 +20,6 @@ ADD install/ldif /opt/ldif
 
 RUN yum -y install openldap-clients gettext \
     && yum clean all \
-
 
     && groupadd -r apacheds \
  	&& useradd -r -g apacheds -m -d /home/apacheds -s /bin/bash -c "apacheds user" apacheds \
@@ -50,8 +47,9 @@ RUN    mkdir ${APACHEDS_BOOTSTRAP}/cache \
     
 # Switch back apacheds user
 USER apacheds
-WORKDIR /opt/apacheds
+WORKDIR ${APACHEDS_DATA}
 
+VOLUME ${APACHEDS_BOOTSTRAP}
 #############################################
 # ApacheDS wrapper command
 #############################################
