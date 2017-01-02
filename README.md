@@ -27,10 +27,19 @@ $ docker run --name ldap -d -p 10389:10389 -e APACHEDS_INSTANCE=<INSTANCE_NAME> 
 ~~~~
   
 ###Variables:
-
+Configuration of own admin password
 * ADMIN_PASSWORD=secret
+Configuration for new partition which will be created on startup.
 * DOMAIN_NAME=1000kit
 * DOMAIN_SUFFIX=de  
+
+### Volumes:
+add volume /opt/ldif_exit to import ldif file on startup. Files will be included in schema `[0-9][0-9]*.ldif` , e.g.:
+* 10_structure.ldif
+* 20_schema.ldif
+* 30_users.ldif
+
+
 
   
 
