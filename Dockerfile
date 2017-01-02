@@ -32,27 +32,29 @@ RUN yum -y install openldap-clients gettext \
 	&& ln -sf apacheds-${APACHEDS_VERSION} apacheds \
 	&& chown -R apacheds:apacheds /opt/apacheds-${APACHEDS_VERSION} /opt/run.sh /opt/ldif \
 	&& chmod ug+rwx /opt/run.sh /opt/apacheds/bin/* \
-	&& rm -rf /tmp/apacheds-${APACHEDS_VERSION}.zip \
-	&& mkdir -p ${APACHEDS_BOOTSTRAP}/conf/
+	&& rm -rf /tmp/apacheds-${APACHEDS_VERSION}.zip
 	 
+
+
+RUN    mkdir -p ${APACHEDS_BOOTSTRAP}/cache \
+    && mkdir -p ${APACHEDS_BOOTSTRAP}/run \
+    && mkdir -p ${APACHEDS_BOOTSTRAP}/conf \
+    && mkdir -p ${APACHEDS_BOOTSTRAP}/log \
+    && mkdir -p ${APACHEDS_BOOTSTRAP}/partitions \
+    && mkdir -p /opt/ldif_ext \
+    && chown -R apacheds:apacheds ${APACHEDS_BOOTSTRAP}
+
 ADD instance/* ${APACHEDS_BOOTSTRAP}/conf/
 
-RUN    mkdir ${APACHEDS_BOOTSTRAP}/cache \
-    && mkdir ${APACHEDS_BOOTSTRAP}/run \
-    && mkdir ${APACHEDS_BOOTSTRAP}/log \
-    && mkdir ${APACHEDS_BOOTSTRAP}/partitions \
-    && chown -R apacheds:apacheds ${APACHEDS_BOOTSTRAP}
-    
-    
-    
 # Switch back apacheds user
 USER apacheds
 WORKDIR ${APACHEDS_DATA}
 
-VOLUME ${APACHEDS_BOOTSTRAP}
+VOLUME /opt/ldif_ext
+
 #############################################
 # ApacheDS wrapper command
 #############################################
-CMD ["/run.sh"]
+CMD ["/opt/run.sh"]
 
 ####END
