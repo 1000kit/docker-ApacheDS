@@ -1,0 +1,7 @@
+dn: dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}
+objectClass: top
+objectClass: domain
+objectClass: extensibleObject
+dc: ${DOMAIN_NAME}
+
+

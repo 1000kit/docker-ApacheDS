@@ -7,7 +7,7 @@ LABEL Vendor="1000kit" \
       License="GPLv3" \
       Version="1.0.0"
 
-ENV APACHEDS_VERSION="2.0.0-M20" \
+ENV APACHEDS_VERSION="2.0.0-M23" \
     APACHEDS_DATA="/opt/apacheds/" \
     APACHEDS_INSTANCE="default" \
     APACHEDS_BOOTSTRAP="/opt/bootstrap"
@@ -41,10 +41,11 @@ RUN    mkdir -p ${APACHEDS_BOOTSTRAP}/cache \
     && mkdir -p ${APACHEDS_BOOTSTRAP}/conf \
     && mkdir -p ${APACHEDS_BOOTSTRAP}/log \
     && mkdir -p ${APACHEDS_BOOTSTRAP}/partitions \
+    && cp ${APACHEDS_DATA}/instances/default/conf/*  ${APACHEDS_BOOTSTRAP}/conf \
     && mkdir -p /opt/ldif_ext \
     && chown -R apacheds:apacheds ${APACHEDS_BOOTSTRAP}
 
-ADD instance/* ${APACHEDS_BOOTSTRAP}/conf/
+#ADD instance/* ${APACHEDS_BOOTSTRAP}/conf/
 
 # Switch back apacheds user
 USER apacheds
