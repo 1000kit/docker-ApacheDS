@@ -113,7 +113,7 @@ else
 
 fi
 
-echo "==> import ready"
+echo "==> import ready - restart for productive use"
 #ldapsearch -h localhost -p 10389 -D 'uid=admin,ou=system' -w ${ADMIN_PASSWORD} "dc=${DOMAIN_NAME},dc=${DOMAIN_SUFFIX}";
 
 touch /opt/apacheds/CONFIGURED

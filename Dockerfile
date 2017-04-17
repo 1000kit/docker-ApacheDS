@@ -22,7 +22,7 @@ RUN yum -y install openldap-clients gettext \
     && yum clean all \
 
     && groupadd -r apacheds \
- 	&& useradd -r -g apacheds -m -d /home/apacheds -s /bin/bash -c "apacheds user" apacheds \
+ 	&& useradd -l -r -g apacheds -m -d /home/apacheds -s /bin/bash -c "apacheds user" apacheds \
  	&& chmod -R 755 /home/apacheds \
  	&& echo 'apacheds ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
 
