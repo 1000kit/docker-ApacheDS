@@ -20,12 +20,10 @@ ADD install/ldif /opt/ldif
 
 RUN yum -y install openldap-clients gettext \
     && yum clean all \
-
     && groupadd -r apacheds \
  	&& useradd -l -r -g apacheds -m -d /home/apacheds -s /bin/bash -c "apacheds user" apacheds \
  	&& chmod -R 755 /home/apacheds \
  	&& echo 'apacheds ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
-
     && curl -L http://archive.apache.org/dist/directory/apacheds/dist/${APACHEDS_VERSION}/apacheds-${APACHEDS_VERSION}.zip -o /tmp/apacheds-${APACHEDS_VERSION}.zip \
 	&& cd /opt \
 	&& unzip -q /tmp/apacheds-${APACHEDS_VERSION}.zip \
@@ -43,7 +41,7 @@ RUN    mkdir -p ${APACHEDS_BOOTSTRAP}/cache \
     && mkdir -p ${APACHEDS_BOOTSTRAP}/partitions \
     && cp ${APACHEDS_DATA}/instances/default/conf/*  ${APACHEDS_BOOTSTRAP}/conf \
     && mkdir -p /opt/ldif_ext \
-    && chown -R apacheds:apacheds ${APACHEDS_BOOTSTRAP}
+    && chown -R apacheds:apacheds ${APACHEDS_BOOTSTRAP} /opt/ldif_ext
 
 #ADD instance/* ${APACHEDS_BOOTSTRAP}/conf/
 

@@ -50,8 +50,8 @@ fi
 pidFile=${APACHEDS_INSTANCE_DIRECTORY}/run/apacheds-${APACHEDS_INSTANCE}.pid
 [[ -e $pidFile ]] && rm $pidFile
 
-gosu root chown apacheds:apacheds /opt/ldif_ext
-gosu root chmod 775 /opt/ldif_ext
+#gosu root chown apacheds:apacheds /opt/ldif_ext
+#gosu root chmod 775 /opt/ldif_ext
 
 #### rename example partition with new partition name:
 echo "VAR PART  #${DOMAIN_NAME}# #${DOMAIN_SUFFIX}#"
@@ -102,8 +102,8 @@ echo "==>password done"
 echo "==> import external ldif files from /opt/ldif_ext"
 if [ -d /opt/ldif_ext ]; then
 	cd /opt/ldif_ext
-	gosu root mkdir /opt/ldif_ext/log
-	gosu root chown apacheds:apacheds /opt/ldif_ext/log
+#	gosu root mkdir /opt/ldif_ext/log
+#	gosu root chown apacheds:apacheds /opt/ldif_ext/log
 	for ldifFile in `ls [0-9]*_*.ldif | sort -n`; do
 	    echo "==> import $ldifFile"
 		ldapmodify -c -a -f /opt/ldif_ext/${ldifFile} -h localhost -p 10389 -D "uid=admin,ou=system" -w ${ADMIN_PASSWORD}  | tee /opt/ldif_ext/log/${ldifFile}.log 2>&1
